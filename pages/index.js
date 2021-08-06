@@ -26,7 +26,7 @@ export default function Home({ exploreData, cardsData }) {
 
           {/* Pull some data from the server - API endpoints (Using Server Side Rendering SSR) */}
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-            {exploreData?.map(({ img,location, distance }) => (
+            {exploreData?.map(({ img, location, distance }) => (
               <SmallCard 
                 key={img}
                 img={img} 
