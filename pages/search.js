@@ -1,11 +1,14 @@
 import { format } from "date-fns";
 import { useRouter } from "next/dist/client/router";
+import Head from "next/head";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
+import InfoCard from "../components/InfoCard";
 
-function Search() {
+function Search({ searchResults }) {
   const router = useRouter();
 
+  // This is a way of getting data from the URL... (useRouter Hook form NextJS)
   const { location, startDate, endDate, noOfGuests } = router.query;
 
   const formattedStartDate = format(new Date(startDate), "dd MMMM yy");
@@ -14,13 +17,19 @@ function Search() {
 
   return (
     <div className="min-h-screen flex flex-col">
+      <Head>
+        <title>{location} - Airbnb Clone</title>
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+
       <Header
         placeholder={`${location} | ${range} | ${noOfGuests} guest${
           noOfGuests > 1 && "s"
         }`}
       />
 
-      <main className="flex flex-grow mx-6 my-14">
+      <main className="flex flex-col flex-grow mx-6 my-14">
+        {/* Top Section */}
         <section>
           <p className="text-xs">
             300+ Stays - {range} - for {noOfGuests} guest{noOfGuests > 1 && "s"}
@@ -40,8 +49,23 @@ function Search() {
           </div>
         </section>
 
-        {/* Result Cards */}
-        <section></section>
+        {/* Search Results */}
+        <section className="mt-7">
+          {searchResults?.map(
+            ({ img, location, title, description, star, price, total }) => (
+              <InfoCard
+                key={img}
+                img={img}
+                location={location}
+                title={title}
+                description={description}
+                star={star}
+                price={price}
+                total={total}
+              />
+            )
+          )}
+        </section>
       </main>
 
       <Footer />
@@ -50,3 +74,17 @@ function Search() {
 }
 
 export default Search;
+
+export async function getServerSideProps() {
+  const searchResults = await fetch("https://links.papareact.com/isz").then(
+    (res) => res.json()
+  );
+
+  // This will pass the data to the functional component at the top i.e Home
+  // It can now be accessed as a prop
+  return {
+    props: {
+      searchResults: searchResults,
+    },
+  };
+}
