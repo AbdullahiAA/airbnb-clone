@@ -93,18 +93,20 @@ function Header({ placeholder }) {
 
       {/* DateRangePicker - Only Show when the search field is not empty */}
       {searchInput && (
-        <div className="flex flex-col mx-auto col-span-3 border border-red-400 max-w-full overflow-hidden box-border">
+        <div className="flex flex-col mx-auto col-span-3 border border-red-400 max-w-full overflow-hidden">
           <DateRangePicker
             ranges={[selectionRange]}
             minDate={new Date()}
             rangeColors={["#FD5B61"]}
             onChange={handleSelect}
-            className="w-full overflow-auto box-border"
+            className="w-full overflow-auto box-border border-b"
           />
 
           {/* Top Row */}
-          <div className="flex justify-between border-b">
-            <h2 className="text-2xl font-semibold ml-1">Number of Guests</h2>
+          <div className="flex justify-between border-b py-2">
+            <h2 className="text-xl lg:text-2xl font-semibold ml-1">
+              Number of Guests
+            </h2>
             <div className="flex items-center gap-2">
               <UsersIcon className="h-5" />
               <input
