@@ -4,6 +4,7 @@ import Head from "next/head";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
 import InfoCard from "../components/InfoCard";
+import Map from "../components/Map";
 
 function Search({ searchResults }) {
   const router = useRouter();
@@ -28,43 +29,52 @@ function Search({ searchResults }) {
         }`}
       />
 
-      <main className="flex flex-col flex-grow mx-6 my-14">
-        {/* Top Section */}
-        <section>
-          <p className="text-xs">
-            300+ Stays - {range} - for {noOfGuests} guest{noOfGuests > 1 && "s"}
-          </p>
+      <main className="flex flex-grow">
+        {/* Left Section - Search Page Content */}
+        <section className="px-6 my-14 flex-grow">
+          {/* Top Section */}
+          <div>
+            <p className="text-xs">
+              300+ Stays - {range} - for {noOfGuests} guest
+              {noOfGuests > 1 && "s"}
+            </p>
 
-          <h1 className="text-3xl font-semibold mt-2 mb-6">
-            Stays in {location}
-          </h1>
+            <h1 className="text-3xl font-semibold mt-2 mb-6">
+              Stays in {location}
+            </h1>
 
-          <div className="hidden lg:inline-flex space-x-3 text-gray-800 whitespace-nowrap">
-            {/* The button class was a custom tailwind utility classes  */}
-            <p className="button">Cancellation Flexibility</p>
-            <p className="button">Type of place</p>
-            <p className="button">Price</p>
-            <p className="button">Rooms and Beds</p>
-            <p className="button">More filters roll</p>
+            <div className="hidden lg:inline-flex text-gray-800 flex-wrap gap-3">
+              {/* The button class was a custom tailwind utility classes  */}
+              <p className="button">Cancellation Flexibility</p>
+              <p className="button">Type of place</p>
+              <p className="button">Price</p>
+              <p className="button">Rooms and Beds</p>
+              <p className="button">More filters roll</p>
+            </div>
+          </div>
+
+          {/* Search Results */}
+          <div className="mt-7">
+            {searchResults?.map(
+              ({ img, location, title, description, star, price, total }) => (
+                <InfoCard
+                  key={img}
+                  img={img}
+                  location={location}
+                  title={title}
+                  description={description}
+                  star={star}
+                  price={price}
+                  total={total}
+                />
+              )
+            )}
           </div>
         </section>
 
-        {/* Search Results */}
-        <section className="mt-7">
-          {searchResults?.map(
-            ({ img, location, title, description, star, price, total }) => (
-              <InfoCard
-                key={img}
-                img={img}
-                location={location}
-                title={title}
-                description={description}
-                star={star}
-                price={price}
-                total={total}
-              />
-            )
-          )}
+        {/* Right Section - Map */}
+        <section className="hidden xl:inline-flex min-w-[500px] flex-grow">
+          <Map searchResults={searchResults} />
         </section>
       </main>
 
